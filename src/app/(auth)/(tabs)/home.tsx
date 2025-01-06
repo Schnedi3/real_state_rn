@@ -6,9 +6,12 @@ import { Colors } from '@/src/constants/Colors';
 import { HomeHeader } from '@/src/components/home/HomeHeader';
 import { featuredCards } from '@/assets/data/data';
 import { FeaturedCard } from '@/src/components/home/FeaturedCard';
+import { categories } from '@/assets/data/data';
+import { Category } from '@/src/components/home/Category';
 
 export default function Home(): JSX.Element {
   const [search, setSearch] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   return (
     <>
@@ -33,8 +36,22 @@ export default function Home(): JSX.Element {
         </View>
 
         {/* recommended */}
-        <View>
+        <View style={{ gap: 10 }}>
           <Text style={styles.title}>Recommended</Text>
+
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={categories}
+            renderItem={({ item }) => (
+              <Category
+                item={item}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+              />
+            )}
+            contentContainerStyle={{ gap: 20 }}
+          />
         </View>
       </View>
     </>
