@@ -21,6 +21,12 @@ export default function Home(): JSX.Element {
       filtered = filtered.filter((item) => item.category === selectedCategory);
     }
 
+    if (search) {
+      filtered = filtered.filter((item) =>
+        item.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
     return filtered;
   }, [selectedCategory, houseCards, search]);
 
