@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Stack } from 'expo-router';
 
@@ -12,7 +12,17 @@ import { HouseCard } from '@/src/components/home/HouseCard';
 
 export default function Home(): JSX.Element {
   const [search, setSearch] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  const filteredCards = useMemo(() => {
+    let filtered = houseCards;
+
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter((item) => item.category === selectedCategory);
+    }
+
+    return filtered;
+  }, [selectedCategory, houseCards, search]);
 
   return (
     <>
@@ -24,7 +34,7 @@ export default function Home(): JSX.Element {
       />
 
       <FlatList
-        data={houseCards}
+        data={filteredCards}
         renderItem={({ item }) => <HouseCard item={item} />}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
